@@ -1,0 +1,8 @@
+/node_modules
+/dist
+/src/util/log/error/
+/src/util/log/info/
+/utility
+/filestore
+esbuild.config.js
+.env

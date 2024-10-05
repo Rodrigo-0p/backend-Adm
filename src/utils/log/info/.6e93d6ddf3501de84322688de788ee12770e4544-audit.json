@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 5
+    },
+    "auditLog": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\.6e93d6ddf3501de84322688de788ee12770e4544-audit.json",
+    "files": [
+        {
+            "date": 1728131136087,
+            "name": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\info-2024-10-05.log",
+            "hash": "cf1bc8645a4956b35868af3080c4cac54771109f4de5f8418148dc1b7a5551fa"
+        }
+    ],
+    "hashType": "sha256"
+}

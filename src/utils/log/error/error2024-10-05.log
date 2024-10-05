@@ -1,0 +1,53 @@
+{"level":"error","message":{"mensaje":"EL usuario no existe en la base de datos","res":0}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":"update activo servicio: Cannot read properties of undefined (reading '1')","stack":"TypeError: Cannot read properties of undefined (reading '1')\n    at exports.mainActivar (C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\controllers\\modulos\\bs\\definicion\\SERVICO\\main.js:121:49)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: llave duplicada viola restricción de unicidad «servicioscab_pkey»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}
+{"level":"error","message":"Open: error: la sintaxis de entrada no es válida para integer: «»"}
+{"level":"error","message":{"error":{},"mensaje":"abm servicio"}}

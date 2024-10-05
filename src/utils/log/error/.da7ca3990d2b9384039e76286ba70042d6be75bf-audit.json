@@ -1,0 +1,25 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 5
+    },
+    "auditLog": "C:\\webBarber\\barber-backend\\src\\utils\\log\\error\\.da7ca3990d2b9384039e76286ba70042d6be75bf-audit.json",
+    "files": [
+        {
+            "date": 1726097386288,
+            "name": "C:\\webBarber\\barber-backend\\src\\utils\\log\\error\\error2024-09-11.log",
+            "hash": "23531f4146785d6062d5fb848f87f2f168cadaa77679725634e7baf3b15b9de7"
+        },
+        {
+            "date": 1726315571191,
+            "name": "C:\\webBarber\\barber-backend\\src\\utils\\log\\error\\error2024-09-14.log",
+            "hash": "f48243cf8fa364b63213982a89d56b74dc1f153833b58dac22fe648e6e3f3023"
+        },
+        {
+            "date": 1726414574814,
+            "name": "C:\\webBarber\\barber-backend\\src\\utils\\log\\error\\error2024-09-15.log",
+            "hash": "11ed497bce80f1394cb4b863acb325efeaf0ac5e79c27b8430f766bac004562c"
+        }
+    ],
+    "hashType": "sha256"
+}
