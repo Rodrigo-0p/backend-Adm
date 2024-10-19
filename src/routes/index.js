@@ -1,8 +1,10 @@
 
 
-const express        = require('express');
-const router         = express.Router();
-// const upload      = require('./modulos/upload');
+const express     = require('express');
+const router      = express.Router();
+
+// CONFIGURACION
+const configur    = require('./modulos/bs/CONFIGUR/CONFIGUR');
 
 // BASE DEFINICION
 const acercade    = require('./modulos/bs/definicion/ACERCADE/ACERCADE');
@@ -12,6 +14,8 @@ const precios     = require('./modulos/bs/definicion/PRECIOS/PRECIOS'  );
 module.exports = ()=>{
   // ADMIN
 
+  // CONFIGURACION
+  router.use( configur() );
   // BASE DEFINICION
   router.use( acercade() );
   router.use( servicio() );

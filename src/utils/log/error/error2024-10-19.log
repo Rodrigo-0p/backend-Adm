@@ -1,0 +1,17 @@
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: el argumento de LIMIT debe ser de tipo bigint, no tipo text"}
+{"level":"error","message":"Open: error: no existe la columna c.cod_servicio"}
+{"level":"error","message":"Open: error: error de sintaxis en o cerca de «T11»"}
+{"level":"error","message":{"error":{},"mensaje":"abm configur"}}
+{"level":"error","message":"copy img private in public CONFIGUR: actualizarPrecio is not defined","stack":"ReferenceError: actualizarPrecio is not defined\n    at exports.mainActivar (C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\controllers\\modulos\\bs\\CONFIGUR\\main.js:134:9)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}

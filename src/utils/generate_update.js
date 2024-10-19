@@ -29,6 +29,7 @@ const valorNull = (value, type) => {
 };
 const comparar = async (data, aux, columns) => {
   let content = {};
+
   try {
     for (let i = 0; i < columns.length; i++) {
       const column = columns[i];
@@ -43,9 +44,11 @@ const comparar = async (data, aux, columns) => {
 }
 exports.generate_update = async (table_name, data, auxData, auxKey = [], opcion = {}, tableColumn, tablePrimaryKey,addObjeto = {}) => {
   let sql = '';
+
   let content = data.filter(item => item.updated);
   let array_opcion = Object.keys(opcion);
   let array_add    = Object.keys(addObjeto);
+
   if (content.length > 0) {
     let columns = tableColumn;
     let pks = tablePrimaryKey;
@@ -53,7 +56,7 @@ exports.generate_update = async (table_name, data, auxData, auxKey = [], opcion 
     for (let index = 0; index < content.length; index++) {
       const element = content[index];
       let aux = auxData.filter(item => {
-        return item.id == element.id
+        return item.id == element.id || element.key_cab
       });
       let datos_modificados = await comparar(element, aux[0], columns);
       if (datos_modificados.length > 0) XRows = [...XRows, element];
@@ -63,7 +66,7 @@ exports.generate_update = async (table_name, data, auxData, auxKey = [], opcion 
       sql += `update ${table_name}`;
       sql += `\n   set `;
       const element = XRows[index];
-      let aux = auxData.filter(item => item.id == element.id);
+      let aux = auxData.filter(item => item.id == element.id || element.key_cab);
       let datos_modificados = await comparar(element, aux[0], columns);
       let keys = Object.keys(datos_modificados[0]);
       for (let i = 0; i < keys.length; i++) {

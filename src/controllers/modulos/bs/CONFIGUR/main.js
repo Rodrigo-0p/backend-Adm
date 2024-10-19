@@ -1,45 +1,45 @@
-const {log_error}       = require("../../../../../utils/logger");
-const db                = require("../../../../../conection/conn");
-const {generate_insert} = require("../../../../../utils/generate_inserte");
-const {generate_update} = require("../../../../../utils/generate_update");
-const {generate_delete} = require("../../../../../utils/generate_delete");
+const {log_error}       = require("../../../../utils/logger");
+const db                = require("../../../../conection/conn");
+const {generate_insert} = require("../../../../utils/generate_inserte");
+const {generate_update} = require("../../../../utils/generate_update");
+const {generate_delete} = require("../../../../utils/generate_delete");
 const tableData         = require('./tableDate');
-const copyImg           = require('../../../../upload/main');
-const {nvl}             = require('../../../../../utils/nvl')
-const actualizarPrecio  = require('../PRECIOS/main')
+const copyImg           = require('../../../upload/main');
+const {nvl}             = require('../../../../utils/nvl')
 
-exports.getServicioCab = async (req, res, next) => {
+exports.getConfigurCab = async (req, res, next) => {
   let { cod_empresa = null }  = req.params;
-  
   try {
-    var sql = ` select coalesce(max(ad.cod_servicio),0) + 1 as id 
-                  from servicioscab ad 
+    var sql = ` select coalesce(max(ad.cod_configuracion),0) + 1 as id 
+                  from configuracion_cab ad 
                  where ad.cod_empresa = ${cod_empresa}`;
     let valor   = [];
     const resul = await db.Open(sql,valor);
     res.status(200).json(resul.rows);
   } catch (error) {
-    log_error.error(`se produjo un error en la funcion getIdServicioCab ${error}`);
-    console.log(`se produjo un error en la funcion getIdServicioCab ${error}`);
+    log_error.error(`se produjo un error en la funcion getConfigurCab ${error}`);
+    console.log(`se produjo un error en la funcion getConfigurCab ${error}`);
     next();
   }
 }
-exports.getServicioDet = async (req, res, next) => {
-  let { cod_servicio = null }  = req.params;
+exports.getConfigurDet = async (req, res, next) => {
+  let { cod_empresa = null, cod_configuracion = null }  = req.params;
   try {
     var sql = ` select coalesce(max(ad.nro_orden),0) + 1 as id 
-                  from serviciosdet ad
-                 where ad.cod_servicio = $1`;
-    let valor   = [cod_servicio];
+                  from configuracion_det ad
+                 where ad.cod_empresa       = $1
+                   and ad.cod_configuracion = $2`;
+    let valor   = [cod_empresa, cod_configuracion];
     const resul = await db.Open(sql,valor);
     res.status(200).json(resul.rows);
   } catch (error) {
-    log_error.error(`se produjo un error en la funcion getIdServicioDet ${error}`);
-    console.log(`se produjo un error en la funcion getIdServicioDet ${error}`);
+    log_error.error(`se produjo un error en la funcion getConfigurDet ${error}`);
+    console.log(`se produjo un error en la funcion getConfigurDet ${error}`);
     next();
   }
 }
-exports.mainServicio = async(req, res, next)=>{
+
+exports.mainConfigur = async(req, res, next)=>{
   var content     = req.body;
   var {usuario = '', cod_empresa = ''} = content.AditionalData;
   // CAB
@@ -50,11 +50,11 @@ exports.mainServicio = async(req, res, next)=>{
   let datosUpdatCab  = "";
   let deleteCab      = "";
   if(content.updateInsertCab.length > 0 || content.delete_cab.length){
-    let NameTableCab = 'servicioscab';
+    let NameTableCab = 'configuracion_cab';
     let tableCab     = tableData.find( item => item.table === NameTableCab);
     datosInserCab    = await generate_insert(NameTableCab, content.updateInsertCab,data_insert,tableCab.column);
     datosUpdatCab    = await generate_update(NameTableCab, content.updateInsertCab, content.aux_updateInsertCab,{},{}, tableCab.column,tableCab.pk,data_update); 
-    deleteCab        = await generate_delete(NameTableCab, content.delete_cab,{},tableCab.column,  tableCab.pk);
+    deleteCab        = await generate_delete(NameTableCab, content.delete_cab,{},tableCab.column, tableCab.pk);
   }
   
   // DET
@@ -62,7 +62,28 @@ exports.mainServicio = async(req, res, next)=>{
   let datosUpdatDet  = "";
   let deleteDet      = "";
   if(content.updateInsertDet.length > 0 || content.delete_det.length){
-    let NameTableDet = 'serviciosdet';
+
+    if(content.delete_det?.length === 0){  
+      let sql = `SELECT c.* FROM valida_redes_sociales($1) c`;
+      let p_mensaje = '';
+      let bandera   = false;
+      for (let i = 0; i < content.updateInsertDet.length; i++) {
+        if(bandera)break
+        const element = content.updateInsertDet[i];
+        let data = [element.cod_redes_sociales];    
+        const resul = await db.Open(sql,data,next); 
+        if(nvl(resul.p_mensaje,null) === null) bandera = true;
+        
+        console.log(resul.rows)
+      }
+      
+      // if(resul.valor){
+      //   res.json({'ret': 0,'p_mensaje':result.p_mensaje});
+      //   return
+      // }
+    }
+    
+    let NameTableDet = 'configuracion_det';
     let tableDet     = tableData.find( item => item.table === NameTableDet);
     datosInserDet    = await generate_insert(NameTableDet, content.updateInsertDet,data_insert,tableDet.column);
     datosUpdatDet    = await generate_update(NameTableDet, content.updateInsertDet, content.aux_updateInsertDet,{},{}, tableDet.column,tableDet.pk,data_update); 
@@ -98,19 +119,17 @@ exports.mainServicio = async(req, res, next)=>{
 
     let totalFilas = totalFilasCab + totalFilasDet;
     let mensaje    = mensajeCab    + mensajeDet   ;    
-    if(nvl(mensaje,null) === null && totalFilas === 0) totalFilas = -1;
-    else actualizarPrecio.activarImg(req,res,next)
-
+    if(nvl(mensaje,null) === null && totalFilas === 0) totalFilas = -1;    
     res.status(200).json({res:totalFilas, mensaje});
   } catch (error) {
     next()
-    log_error.error({error, mensaje:'abm servicio'});
+    log_error.error({error, mensaje:'abm configur'});
     console.log(error)
   }
 }
 exports.mainActivar = async(req, res, next)=>{
   let content        = req.body;
-  let NameTableCab   = 'servicioscab';
+  let NameTableCab   = 'configuracion_cab';
   let data_update    = { usuario_mod:`'${content.usuario}'`, fecha_mod:'CURRENT_TIMESTAMP'}
   let tableCab       = tableData.find( item => item.table === NameTableCab);
   let datosUpdatCab  = await generate_update(NameTableCab, [content], content.aux_update,{},data_update, tableCab.column,  tableCab.pk); 
@@ -124,31 +143,27 @@ exports.mainActivar = async(req, res, next)=>{
 
       const extencion = content.name_img.split('.')[1];
       let cod_empresa = content.cod_empresa;
-      let dataRow     = { titulo         : content.titulo      ,
-                          descripcion    : content.descripcion ,
-                          nomb_empresa   : content.nomb_empresa,
-                          extencion_img  : extencion           ,
-                          detalle        : content.detalle     ,
-                          cod_empresa
+      let dataRow     = { titulo        : content.titulo      ,
+                          extencion_img : extencion           ,
+                          detalle       : content.detalle     ,                          
                         }
       try {
-        const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\SERVICIO\\servicio-img${content.cod_servicio}.${extencion}`;
-        const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\servicio-img.${extencion}`;
+        const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\CONFIGUR\\configur-img${content.cod_configuracion}.${extencion}`;
+        const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\configur-img.${extencion}`;
         await copyImg.copiarImagen(origen,destino);  
         // codpia de datos
-        await copyImg.saveData(dataRow,'SERVICIO',process.env.FILESTORE_PUBLIC+'\\'+cod_empresa+'\\data\\');
-        actualizarPrecio.activarImg(req,res,next);
+        await copyImg.saveData(dataRow,'CONFIGUR',process.env.FILESTORE_PUBLIC+'\\'+cod_empresa+'\\data\\');
         data  = {res:1, mensaje:''}
       } catch (error) {
         
         data  = {res:0, mensaje:error}
         console.log(error)
-        log_error.error(`copy img private in public servicio:`,error);
+        log_error.error(`copy img private in public CONFIGUR:`,error);
         next()
       }
     }
     res.status(200).json(data); 
   } catch (error) {
-    log_error.error(`update activo servicio:`,error);
+    log_error.error(`update activo configur:`,error);
   }
 }

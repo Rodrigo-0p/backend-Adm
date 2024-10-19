@@ -30,6 +30,7 @@ module.exports = [
               { column_name: 'usuario_mod' , data_type: 'character varying' },
               { column_name: 'fecha_alta'  , data_type: 'timestamp'         },
               { column_name: 'usuario'     , data_type: 'character varying' },
+              { column_name: 'cod_empresa' , data_type: 'integer' },
             ],
     pk:[{ column_name: 'nro_orden'         , position: 1 },
         { column_name: 'cod_servicio', position: 2 }

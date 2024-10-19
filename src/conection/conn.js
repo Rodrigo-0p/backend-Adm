@@ -33,7 +33,7 @@ const Open = async (sql,values,res,next = false)=>{
     await client.query('COMMIT');
     return result;
   } catch (error) {
-    res?.status(200).json({res:0, mensaje:error.message});
+    if(res.status)res?.status(200).json({res:0, mensaje:error.message});
     if(next)next();
     client.query('ROLLBACK')    
     console.error('Error al abrir la conexión:', error.message);
