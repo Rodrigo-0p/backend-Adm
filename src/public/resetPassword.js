@@ -27,6 +27,7 @@ exports.resetPassword = async (req, res, next) =>{
 
           var sql = ` select u.*
                            , e.nombre as empresa
+                           , e.name_img
                            , e.descripcion as desc_empresa
                         from usuarios u
                            , empresa  e
@@ -39,25 +40,28 @@ exports.resetPassword = async (req, res, next) =>{
                 const has           = await bcrypt.genSalt(10);
                 const password_rest = await bcrypt.hash(password,has);
                 var sql_reset = `UPDATE usuarios c
-                                    SET c.password = '${password_rest}'
-                                  where c.cod_usuario = upper($1)`;
+                                    SET password  ='${password_rest}'
+                                  where c.usuario = upper($1)`;
                 let valor_reset  = [usuario];
                 const resul_reset = await db.Open(sql_reset,valor_reset);
-                if(resul_reset?.rowCount){
-                    const token = jwt.sign({id:resul.rows[0].usuario}, process.env.JW_CLAVE,{expiresIn:'5h',});
-                    let permisos   = await getPermisosMenu(resul.rows[0].usuario); 
+                if(resul_reset && resul_reset?.rowCount){
+                    const token     = jwt.sign({id:resul.rows[0].usuario}, process.env.JW_CLAVE,{expiresIn:'5h',});
+                    let permisos    = await getPermisosMenu(resul.rows[0].usuario); 
+                    const extencion = resul.rows[0].name_img.split('.')[1];
+
                     let rows = { 
-                        'cod_usuario' :resul.rows[0].cod_usuario  ,
-                        'usuario'     :resul.rows[0].usuario      ,
-                        'nombre'      :resul.rows[0].nombre       ,
-                        'apellido'    :resul.rows[0].apellido     ,
-                        'cod_empresa' :resul.rows[0].cod_empresa  ,
-                        'empresa'     :resul.rows[0].empresa      ,
-                        'desc_empresa':resul.rows[0].desc_empresa ,                        
-                        'img'         :resul.rows[0].url_img      ,
-                        'menu'        :permisos                   ,
-                        'token'       :token                      ,
-                        'hash'        :password_rest              ,
+                        'cod_usuario'   :resul.rows[0].cod_usuario  ,
+                        'usuario'       :resul.rows[0].usuario      ,
+                        'nombre'        :resul.rows[0].nombre       ,
+                        'apellido'      :resul.rows[0].apellido     ,
+                        'cod_empresa'   :resul.rows[0].cod_empresa  ,
+                        'empresa'       :resul.rows[0].empresa      ,
+                        'desc_empresa'  :resul.rows[0].desc_empresa ,
+                        'img'           :resul.rows[0].url_img      ,
+                        'extencion_img' :extencion                  ,
+                        'menu'          :permisos                   ,
+                        'token'         :token                      ,
+                        'hash'          :password_rest              ,
                         }
                     res.status(200).json({res:1, mensaje:"la contraseña se a restablecido!!", rows});
                 }else{

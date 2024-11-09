@@ -5,6 +5,7 @@ const {log_error}     = require("../utils/logger");
 const db              = require("../conection/conn");
 const bcrypt          = require('bcrypt');
 const { getPermisosMenu } = require('./getpermisos');
+const { result } = require("underscore");
 
 require('dotenv').config();
 
@@ -28,10 +29,15 @@ exports.Autenticacion = async (req, res, next) =>{
       var sql = `  select u.*
                         , e.nombre as empresa
                         , e.descripcion as desc_empresa
+                        , e.name_img
+                        ,(SELECT MAX(a.cod_funcionario)
+                          FROM funcionario a 
+                          WHERE a.cod_usuario = u.cod_usuario) as cod_funcionario
                      from usuarios u
                         , empresa  e
                     where u.cod_empresa  = e.cod_empresa
-                      and upper(usuario) = upper($1)`;
+                      and e.activo ='S'
+                      and upper(u.usuario) = upper($1)`;
       var valor   = [usuario];
       const resul = await db.Open(sql,valor);
 
@@ -49,22 +55,25 @@ exports.Autenticacion = async (req, res, next) =>{
         }else{
           return res.status(200).json({res:-1, mensaje:'restablezca la contaseña!!'});
         }
-        
-        const token    = jwt.sign({id:resul.rows[0].usuario}, process.env.JW_CLAVE,{expiresIn:'5h',});
-        const permisos = await getPermisosMenu(resul.rows[0].usuario)
+        const token     = jwt.sign({id:resul.rows[0].usuario}, process.env.JW_CLAVE,{expiresIn:'5h',});
+        const permisos  = await getPermisosMenu(resul.rows[0].usuario)
+        const extencion = resul.rows[0].name_img.split('.')[1];
+    
         let rows = { 
-                      'cod_usuario' :resul.rows[0].cod_usuario  ,
-                      'usuario'     :resul.rows[0].usuario      ,
-                      'nombre'      :resul.rows[0].nombre       ,
-                      'apellido'    :resul.rows[0].apellido     ,
-                      'img'         :resul.rows[0].url_img      ,
-                      'id'          :resul.rows[0].id           ,
-                      'cod_empresa' :resul.rows[0].cod_empresa  ,
-                      'empresa'     :resul.rows[0].empresa      ,
-                      'desc_empresa':resul.rows[0].desc_empresa ,
-                      'menu'        :permisos                   ,
-                      'token'       :token                      ,
-                      'hash'        :resul.rows[0].password     ,
+                      'cod_usuario'    :resul.rows[0].cod_usuario  ,
+                      'usuario'        :resul.rows[0].usuario      ,
+                      'nombre'         :resul.rows[0].nombre       ,
+                      'extencion_img'  :extencion                  ,
+                      'apellido'       :resul.rows[0].apellido     ,
+                      'img'            :resul.rows[0].url_img      ,
+                      'id'             :resul.rows[0].id           ,
+                      'cod_empresa'    :resul.rows[0].cod_empresa  ,
+                      'empresa'        :resul.rows[0].empresa      ,
+                      'desc_empresa'   :resul.rows[0].desc_empresa ,
+                      'menu'           :permisos                   ,
+                      'token'          :token                      ,
+                      'hash'           :resul.rows[0].password     ,
+                      'cod_funcionario':resul.rows[0].cod_funcionario,
                     }
         res.status(200).json({res:1, mensaje:"Usuario logueado con exito!!", rows});          
       }else{

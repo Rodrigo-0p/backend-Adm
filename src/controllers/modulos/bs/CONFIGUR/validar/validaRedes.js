@@ -6,7 +6,8 @@ exports.main = async (req, res, next) => {
   // let dependencia = _.extend( ...req.body.dependencia);
   const { valor = null }  = req.body;
   try {
-    var sql = `SELECT c.* FROM valida_redes_sociales($1) c`;
+    var sql = `SELECT * 
+                 FROM valida_redes_sociales($1)`;
     let data = [valor];    
     const resul = await db.Open(sql,data,next);
     res.status(200).json(resul.rows);

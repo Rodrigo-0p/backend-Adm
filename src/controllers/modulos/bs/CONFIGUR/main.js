@@ -38,7 +38,6 @@ exports.getConfigurDet = async (req, res, next) => {
     next();
   }
 }
-
 exports.mainConfigur = async(req, res, next)=>{
   var content     = req.body;
   var {usuario = '', cod_empresa = ''} = content.AditionalData;
@@ -65,22 +64,22 @@ exports.mainConfigur = async(req, res, next)=>{
 
     if(content.delete_det?.length === 0){  
       let sql = `SELECT c.* FROM valida_redes_sociales($1) c`;
-      let p_mensaje = '';
-      let bandera   = false;
+      let mensaje = '';
+      let bandera = false;
       for (let i = 0; i < content.updateInsertDet.length; i++) {
         if(bandera)break
         const element = content.updateInsertDet[i];
         let data = [element.cod_redes_sociales];    
         const resul = await db.Open(sql,data,next); 
-        if(nvl(resul.p_mensaje,null) === null) bandera = true;
-        
-        console.log(resul.rows)
+        if(nvl(resul.rows[0].p_mensaje,null) !== null){
+          mensaje = `${resul.rows[0].p_mensaje} .- ${element.cod_redes_sociales}`
+          bandera = true;
+        }
+      }      
+      if(bandera){
+        res.status(200).json({res:0,mensaje});
+        return
       }
-      
-      // if(resul.valor){
-      //   res.json({'ret': 0,'p_mensaje':result.p_mensaje});
-      //   return
-      // }
     }
     
     let NameTableDet = 'configuracion_det';
@@ -138,9 +137,8 @@ exports.mainActivar = async(req, res, next)=>{
     const resulInsert  = await db.Open(datosUpdatCab, [], res);
     let data           = { res     : resulInsert[1]          ? resulInsert[1].rowCount : 0, 
                            mensaje : resulInsert[0]?.message ? resulInsert[0].message  : ""};    
-
+    
     if(data.res > 0 || datosUpdatCab === ""){
-
       const extencion = content.name_img.split('.')[1];
       let cod_empresa = content.cod_empresa;
       let dataRow     = { titulo        : content.titulo      ,

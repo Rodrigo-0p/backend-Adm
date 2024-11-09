@@ -12,7 +12,9 @@ module.exports = [
               { column_name: 'name_img_precios'       , data_type: 'character varying' },
               { column_name: 'name_img_fondo_precios' , data_type: 'character varying' },
             ],
-    pk:[{ column_name: 'cod_servicio', position: 1 }]
+    pk:[{ column_name: 'cod_empresa' , position: 1 },
+        { column_name: 'cod_servicio', position: 2 },
+      ]
   },
   {
     table: 'serviciosdet',
@@ -22,9 +24,10 @@ module.exports = [
               { column_name: 'cod_servicio', data_type: 'character varying' },
               { column_name: 'precios'     , data_type: 'float varying'     },
               { column_name: 'indpromo'    , data_type: 'character varying' },
+              { column_name: 'cod_empresa' , data_type: 'integer'           },
             ],
-    pk:[{ column_name: 'nro_orden'   , position: 1 },
-        { column_name: 'cod_servicio', position: 2 }
-        ]
+    pk:[{ column_name: 'cod_empresa' , position: 1 },
+        { column_name: 'cod_servicio', position: 2 },
+        { column_name: 'nro_orden'   , position: 3 }]
   }
 ]

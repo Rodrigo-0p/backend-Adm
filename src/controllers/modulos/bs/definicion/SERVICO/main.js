@@ -41,7 +41,7 @@ exports.getServicioDet = async (req, res, next) => {
 }
 exports.mainServicio = async(req, res, next)=>{
   var content     = req.body;
-  var {usuario = '', cod_empresa = ''} = content.AditionalData;
+  var {usuario = null, cod_empresa = null} = content.AditionalData;
   // CAB
   let data_insert    = {  cod_empresa, usuario:`'${usuario}'`, fecha_alta:'CURRENT_TIMESTAMP'}
   let data_update    = {  cod_empresa, usuario_mod:`'${usuario}'`, fecha_mod:'CURRENT_TIMESTAMP'}
@@ -124,6 +124,7 @@ exports.mainActivar = async(req, res, next)=>{
 
       const extencion = content.name_img.split('.')[1];
       let cod_empresa = content.cod_empresa;
+      
       let dataRow     = { titulo         : content.titulo      ,
                           descripcion    : content.descripcion ,
                           nomb_empresa   : content.nomb_empresa,

@@ -51,7 +51,7 @@ exports.generate_update = async (table_name, data, auxData, auxKey = [], opcion 
 
   if (content.length > 0) {
     let columns = tableColumn;
-    let pks = tablePrimaryKey;
+    let pks     = tablePrimaryKey;
     let XRows = [];
     for (let index = 0; index < content.length; index++) {
       const element = content[index];
@@ -90,7 +90,9 @@ exports.generate_update = async (table_name, data, auxData, auxKey = [], opcion 
       for (let i = 0; i < pks.length; i++) {
         let key = pks[i];
         let keyValue = { ...key };
+
         const type = columns.find(item => item.column_name == key.column_name);
+
         if (_.contains(Object.keys(auxKey), keyValue.column_name)) {
           keyValue.column_name = auxKey[keyValue.column_name];
         }

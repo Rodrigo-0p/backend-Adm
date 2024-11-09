@@ -9,11 +9,11 @@ const mainUpload        = require('../../../../../controllers/upload/main')
 exports.mainPrecios = async(req, res, next)=>{
   var content     = req.body;
 
-  var {usuario = ''} = content.AditionalData;
-  let data_update    = {  usuario_mod:`'${usuario}'`, fecha_mod:'CURRENT_TIMESTAMP'}
+  const {usuario = null} = content.AditionalData;
+  let data_update  = {  usuario_mod:`'${usuario}'`, fecha_mod:'CURRENT_TIMESTAMP'}
 
   // CAB
-  let datosUpdatCab  = "";
+  let datosUpdatCab    = "";
   if(content.updateInsertCab.length > 0){
     let NameTableCab   = 'servicioscab';
     let tableCab       = tableData.find( item => item.table === NameTableCab);
@@ -26,7 +26,7 @@ exports.mainPrecios = async(req, res, next)=>{
     let tableDet     = tableData.find( item => item.table === NameTableDet);
     datosUpdatDet    = await generate_update(NameTableDet, content.updateInsertDet, content.aux_updateInsertDet,{},{}, tableDet.column,  tableDet.pk, data_update); 
   }
-  
+
   try {
     // Procesar inserciones y actualizaciones
     let resulUpdateCab = ''
@@ -81,8 +81,12 @@ exports.uploadImage =  async (req, res, next) => {
 exports.activarImg = async(req, res, next)=>{
   setTimeout(async()=>{
     try {
-      const { nameImg } = req.params
-      const extencion = nameImg ? nameImg.split('.') : '';
+      const { nameImg }  = req.params;
+      const extencion    = nameImg ? nameImg.split('.') : '';
+      const vcod_empresa = req.params !== undefined ? req.params.cod_empresa : null; // en caso que se modifique en el formulario de Precio
+      // Actualizacion desde el formulario de Servicios
+      const cod_empresa  = req.body.AditionalData ? req.body.AditionalData.cod_empresa : null;
+
       let sql = `select s.cod_empresa
                       , e.nombre as nomb_empresa
                       , s.titulo_precios 
@@ -92,12 +96,12 @@ exports.activarImg = async(req, res, next)=>{
                    from servicioscab s
                       , empresa e 
                   where s.cod_empresa = e.cod_empresa
-                    and s.activo  = 'S' `;
+                    and s.cod_empresa = ${cod_empresa}
+                    and s.activo      = 'S'`;
       const resul = await db.Open(sql,[],res,next);
       if(resul.rows && resul.rows.length > 0){
 
         let vdata = resul.rows[0];
-        var cod_empresa         = vdata.cod_empresa;
         const extencion_img     = vdata.name_img_precios       ? vdata.name_img_precios.split('.')[1]       : '';
         const extencion_img_fon = vdata.name_img_fondo_precios ? vdata.name_img_fondo_precios.split('.')[1] : ''; 
 
@@ -111,16 +115,16 @@ exports.activarImg = async(req, res, next)=>{
                          , d.indpromo
                       from serviciosdet d
                      where d.cod_servicio = ${vdata.cod_servicio} 
-                     order by d.cod_servicio desc`;
+                     order by d.indpromo desc`;
         const resul_det = await db.Open(sqlD,[],res,next);
         if(resul_det.rows && resul_det.rows.length > 0) dataRow.detalle = resul_det.rows;
         else dataRow.detalle = []
         await copyImg.saveData(dataRow,'PRECIOS',process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\data\\`);
       }
       if(nvl(extencion,null) !== null){
-        const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\PRECIOS\\${extencion[0]}.${extencion[1]}`;
+        const origen    = process.env.FILESTORE_PRIVATE+`\\${vcod_empresa}\\PRECIOS\\${extencion[0]}.${extencion[1]}`;
         const nameSinID = extencion[0].replace(/[0-9]/g, ''); // quita cualquier numero dentro el string
-        const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
+        const destino   = process.env.FILESTORE_PUBLIC+`\\${vcod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
         await copyImg.copiarImagen(origen,destino);
       }
     } catch (error) {
