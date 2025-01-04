@@ -29,6 +29,9 @@ exports.resetPassword = async (req, res, next) =>{
                            , e.nombre as empresa
                            , e.name_img
                            , e.descripcion as desc_empresa
+                           , (SELECT MAX(a.cod_funcionario)
+                                FROM funcionario a 
+                               WHERE a.cod_usuario = u.cod_usuario) as cod_funcionario
                         from usuarios u
                            , empresa  e
                        where u.cod_empresa    = e.cod_empresa
@@ -50,18 +53,19 @@ exports.resetPassword = async (req, res, next) =>{
                     const extencion = resul.rows[0].name_img.split('.')[1];
 
                     let rows = { 
-                        'cod_usuario'   :resul.rows[0].cod_usuario  ,
-                        'usuario'       :resul.rows[0].usuario      ,
-                        'nombre'        :resul.rows[0].nombre       ,
-                        'apellido'      :resul.rows[0].apellido     ,
-                        'cod_empresa'   :resul.rows[0].cod_empresa  ,
-                        'empresa'       :resul.rows[0].empresa      ,
-                        'desc_empresa'  :resul.rows[0].desc_empresa ,
-                        'img'           :resul.rows[0].url_img      ,
-                        'extencion_img' :extencion                  ,
-                        'menu'          :permisos                   ,
-                        'token'         :token                      ,
-                        'hash'          :password_rest              ,
+                        'cod_usuario'    :resul.rows[0].cod_usuario    ,
+                        'usuario'        :resul.rows[0].usuario        ,
+                        'nombre'         :resul.rows[0].nombre         ,
+                        'apellido'       :resul.rows[0].apellido       ,
+                        'cod_empresa'    :resul.rows[0].cod_empresa    ,
+                        'empresa'        :resul.rows[0].empresa        ,
+                        'desc_empresa'   :resul.rows[0].desc_empresa   ,
+                        'img'            :resul.rows[0].url_img        ,
+                        'extencion_img'  :extencion                    ,
+                        'menu'           :permisos                     ,
+                        'token'          :token                        ,
+                        'hash'           :password_rest                ,
+                        'cod_funcionario':resul.rows[0].cod_funcionario,
                         }
                     res.status(200).json({res:1, mensaje:"la contraseña se a restablecido!!", rows});
                 }else{

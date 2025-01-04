@@ -28,15 +28,11 @@ exports.getListCab = async (req, res, next) =>{
                         , e.name_img
                         , e.latitud
                         , e.longitud
-                        , f.cod_funcionario 
-                    FROM empresa e ,
-                        funcionario f
-                    WHERE e.cod_empresa     = f.cod_empresa
-				      AND f.cod_funcionario = e.cod_funcionario
-					  AND f.cod_funcionario = $1
-                      AND f.estado			= 'S'
-                      AND e.activo          = 'S'				
-                      AND (e.cod_empresa  	= $2 	 OR $2  IS NULL)				
+                    FROM empresa    e 
+                   WHERE e.activo          = 'S'
+                     AND (e.cod_empresa  in (select f.cod_empresa from funcionario f 
+						                      where f.cod_funcionario  = $2 
+                                                AND f.estado           = 'S') or e.cod_empresa = $1)
                       AND (e.nombre 		ILIKE $3 OR $3	IS NULL)
                       AND (e.descripcion  	ILIKE $4 OR $4 	IS NULL)
                       AND (e.correo 		ILIKE $5 OR $5 	IS NULL)

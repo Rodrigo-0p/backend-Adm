@@ -31,8 +31,8 @@ exports.Autenticacion = async (req, res, next) =>{
                         , e.descripcion as desc_empresa
                         , e.name_img
                         ,(SELECT MAX(a.cod_funcionario)
-                          FROM funcionario a 
-                          WHERE a.cod_usuario = u.cod_usuario) as cod_funcionario
+                            FROM funcionario a 
+                           WHERE a.cod_usuario = u.cod_usuario) as cod_funcionario
                      from usuarios u
                         , empresa  e
                     where u.cod_empresa  = e.cod_empresa

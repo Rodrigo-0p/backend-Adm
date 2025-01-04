@@ -1,6 +1,6 @@
 const express = require('express');
 const router  = express.Router();
-const url_base  = '/admin/empresas';
+const url_base      = '/admin/empresas';
 const list_cabecera = require('../../../../../controllers/modulos/bs/definicion/EMPRESA/listar/listarCab');
 const main          = require('../../../../../controllers/modulos/bs/definicion/EMPRESA/main');
 const mainUpload    = require('../../../../../controllers/upload/main');
