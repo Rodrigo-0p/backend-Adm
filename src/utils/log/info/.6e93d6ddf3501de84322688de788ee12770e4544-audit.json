@@ -6,9 +6,19 @@
     "auditLog": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\.6e93d6ddf3501de84322688de788ee12770e4544-audit.json",
     "files": [
         {
-            "date": 1735984965104,
-            "name": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\info-2025-01-04.log",
-            "hash": "487d742feeb6344029695665c8d2be7989fbabfdf2a7aa7a812bb9311df3f775"
+            "date": 1736421030485,
+            "name": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\info-2025-01-09.log",
+            "hash": "7f61b9e866bd4229dc41942dbd4fdd28ffcfb5c85c8d429407e180a7e792a2e3"
+        },
+        {
+            "date": 1736548236014,
+            "name": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\info-2025-01-10.log",
+            "hash": "f316f60bbb912ec550f17a26d252683797a1e724ac169572738f29cd9269431b"
+        },
+        {
+            "date": 1736808354395,
+            "name": "C:\\Users\\Rodrigo\\OneDrive\\Escritorio\\Pro-Margin\\Backend_Adm\\src\\utils\\log\\info\\info-2025-01-13.log",
+            "hash": "384c644a9b8b4ad566fd0234a0aef31e18188c30b6de25ff85f5cd14b99e5b96"
         }
     ],
     "hashType": "sha256"

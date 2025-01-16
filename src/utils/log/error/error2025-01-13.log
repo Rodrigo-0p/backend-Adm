@@ -1,0 +1,16 @@
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":"Open: error: el operador no existe: character varying = integer"}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":"Open: error: no existe la columna «usuario» en la relación «categoria»"}
+{"level":"error","message":{"error":{},"mensaje":"abm categoria"}}
+{"level":"error","message":"se produjo un error en la funcion getAlmacen TypeError: Cannot read properties of undefined (reading 'status')"}
+{"level":"error","message":"Open: error: el mensaje de enlace (bind) entrega 2 parámetros, pero la sentencia preparada «» requiere 3"}
+{"level":"error","message":"se produjo un error en la funcion ARTICULO_ALMACEN: listarDet TypeError: Cannot read properties of undefined (reading 'rows')"}

@@ -59,6 +59,7 @@ exports.resetPassword = async (req, res, next) =>{
                         'apellido'       :resul.rows[0].apellido       ,
                         'cod_empresa'    :resul.rows[0].cod_empresa    ,
                         'empresa'        :resul.rows[0].empresa        ,
+                        'cod_sucursal'   :resul.rows[0].cod_sucursal   ,
                         'desc_empresa'   :resul.rows[0].desc_empresa   ,
                         'img'            :resul.rows[0].url_img        ,
                         'extencion_img'  :extencion                    ,

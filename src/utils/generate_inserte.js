@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const valorNull = (value, type) => {
   if (value === null || typeof value === 'undefined' || value.toString().trim() === '') {
-    if (['number','timestamp'].includes(type)) {
+    if (['number','integer','timestamp'].includes(type)) {
       return 'null';
     } else {
       return "''";

@@ -68,6 +68,7 @@ exports.Autenticacion = async (req, res, next) =>{
                       'img'            :resul.rows[0].url_img      ,
                       'id'             :resul.rows[0].id           ,
                       'cod_empresa'    :resul.rows[0].cod_empresa  ,
+                      'cod_sucursal'   :resul.rows[0].cod_sucursal ,
                       'empresa'        :resul.rows[0].empresa      ,
                       'desc_empresa'   :resul.rows[0].desc_empresa ,
                       'menu'           :permisos                   ,
