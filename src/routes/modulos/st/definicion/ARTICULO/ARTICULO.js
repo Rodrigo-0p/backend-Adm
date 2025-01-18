@@ -21,7 +21,7 @@ module.exports = ()=>{
   router.get ( url_base + '/idserialCab/:cod_empresa'                              , main.getCodeCab  );
   router.get ( url_base + '/idserialDet/:cod_empresa/:cod_sucursal/:cod_articulo'  , main.getCodeDet  );
   // IMG
-  router.post( url_base + '/upload/img/:nameFile/:cod_empresa/:nameImg', mainUpload.main);
+  router.post( url_base + '/upload/img/:nameFile/:cod_empresa/:nameImg'            , mainUpload.main  );
   // LISTAR CAB
   router.post( url_base + '/listar/cabecera'   , lCabecera.main   );
   router.post( url_base + '/listar/detalle'    , lDetalle.main    );

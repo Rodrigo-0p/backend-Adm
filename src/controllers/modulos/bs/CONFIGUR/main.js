@@ -6,6 +6,10 @@ const {generate_delete} = require("../../../../utils/generate_delete");
 const tableData         = require('./tableDate');
 const copyImg           = require('../../../upload/main');
 const {nvl}             = require('../../../../utils/nvl')
+const path              = require('path');
+const filestorePrivate  =  path.join(__dirname,'..','..','..','..','..','filestore','private')//process.env.FILESTORE_PRIVATE
+const filestorePublic   =  path.join(__dirname,'..','..','..','..','..','filestore','public')//process.env.FILESTORE_PRIVATE
+
 
 exports.getConfigurCab = async (req, res, next) => {
   let { cod_empresa = null }  = req.params;
@@ -146,11 +150,15 @@ exports.mainActivar = async(req, res, next)=>{
                           detalle       : content.detalle     ,                          
                         }
       try {
-        const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\CONFIGUR\\configur-img${content.cod_configuracion}.${extencion}`;
-        const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\configur-img.${extencion}`;
+        // const origen = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\CONFIGUR\\configur-img${content.cod_configuracion}.${extencion}`;
+        // const destino =  process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\configur-img.${extencion}`;
+
+        const origen    = path.join(filestorePrivate,`${cod_empresa}`,'CONFIGUR',`configur-img${content.cod_configuracion}.${extencion}`)
+        const destino   = path.join(filestorePublic,`${cod_empresa}`,'img',`configur-img.${extencion}`)
+        
         await copyImg.copiarImagen(origen,destino);  
         // codpia de datos
-        await copyImg.saveData(dataRow,'CONFIGUR',process.env.FILESTORE_PUBLIC+'\\'+cod_empresa+'\\data\\');
+        await copyImg.saveData(dataRow,'CONFIGUR',path.join(filestorePublic,`${cod_empresa}`,'data/'));
         data  = {res:1, mensaje:''}
       } catch (error) {
         

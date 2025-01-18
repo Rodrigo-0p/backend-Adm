@@ -1,5 +1,4 @@
 const fs                    = require('fs');
-const path                  = require('path');
 const db                    = require('../../../../../conection/conn')
 const { generate_insert }   = require('../../../../../utils/generate_inserte');
 const { generate_update }   = require('../../../../../utils/generate_update');
@@ -9,6 +8,9 @@ const {nvl}                 = require('../../../../../utils/nvl')
 const copyImg               = require('../../../../upload/main');
 const tableData             = require('./tableData');
 const mainUpload            = require('../../../../../controllers/upload/main');
+const path              = require('path');
+const filestorePrivate  =  path.join(__dirname,'..','..','..','..','..','..','filestore','private')//process.env.FILESTORE_PRIVATE
+const filestorePublic   =  path.join(__dirname,'..','..','..','..','..','..','filestore','public')//process.env.FILESTORE_PRIVATE
 
 exports.getEmpresa = async(req, res, next) => {
     try {
@@ -28,9 +30,13 @@ exports.getEmpresa = async(req, res, next) => {
 
 async function createDirectories(codigoEmpresa){
     try {
-        const codigoString = codigoEmpresa.toString();
-        const privateDir     = process.env.FILESTORE_PRIVATE+'/'+codigoString+'/EMPRESA'
-        const publicDir      = process.env.FILESTORE_PUBLIC+'/'+codigoString;
+        // const codigoString = codigoEmpresa.toString();
+        // const privateDir     = process.env.FILESTORE_PRIVATE+'/'+codigoString+'/EMPRESA'
+        // const publicDir      = process.env.FILESTORE_PUBLIC+'/'+codigoString;
+
+        const privateDir     = path.join(filestorePrivate,`${codigoEmpresa}`,'EMPRESA')
+        const publicDir      = path.join(filestorePublic,`${codigoEmpresa}`,)
+        
         const publicSubsDirs = ['data', 'img', 'user'];
         //crea el directorio privado
         if(!fs.existsSync(privateDir)){
@@ -131,12 +137,15 @@ exports.mainActivar = async(req, res, next)=>{
                                   descripcion   : vdata.descripcion   ,
                                   extencion_img : extencion  
                                 } 
-                await copyImg.saveData(dataRow,'EMPRESA', process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\data\\`);                
+                // process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\data\\
+                await copyImg.saveData(dataRow,'EMPRESA', path.join(filestorePublic,`${cod_empresa}`,'data/'));                
             }
             if(nvl(extencion,null) !== null){
-                const origen    = process.env.FILESTORE_PRIVATE+`\\${vcod_empresa}\\EMPRESA\\${extencion[0]}.${extencion[1]}`;
                 const nameSinID = extencion[0].replace(/[0-9]/g, ''); // quita cualquier numero dentro el string
-                const destino   = process.env.FILESTORE_PUBLIC+`\\${vcod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
+                // const origen    = process.env.FILESTORE_PRIVATE+`\\${vcod_empresa}\\EMPRESA\\${extencion[0]}.${extencion[1]}`;
+                // const destino   = process.env.FILESTORE_PUBLIC+`\\${vcod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
+                const origen    = path.join(filestorePrivate,`${vcod_empresa}`,'EMPRESA',`${extencion[0]}.${extencion[1]}`)
+                const destino   = path.join(filestorePublic,`${vcod_empresa}`,'img',`${nameSinID}.${extencion[1]}`)                        
                 await copyImg.copiarImagen(origen,destino);
               }
         } catch (error) {

@@ -1,12 +1,14 @@
-const multer    = require('multer');
-const fs        = require('fs');
+const multer        = require('multer');
+const fs            = require('fs');
 const { log_error } = require('../../utils/logger');
+const path          = require('path');
 require('dotenv').config();
-const filestore = process.env.FILESTORE_PRIVATE
+const filestore =  path.join(__dirname,'..','..','..','filestore','private')//process.env.FILESTORE_PRIVATE
+
 const storage  = multer.diskStorage({    
   destination: (req, file, cb) => {
-      var dirr = process.env.FILESTORE_PRIVATE+'\\'+req.params.cod_empresa+'\\'+req.params.nameFile;      
-      
+    const dirr = path.join(filestore,req.params.cod_empresa,req.params.nameFile);
+      // var dirr = process.env.FILESTORE_PRIVATE+'\\'+req.params.cod_empresa+'\\'+req.params.nameFile;
       if(!fs.existsSync(dirr)) {
           fs.mkdir(dirr,function(err){
               if (err) {

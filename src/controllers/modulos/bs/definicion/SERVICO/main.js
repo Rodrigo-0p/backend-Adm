@@ -7,6 +7,9 @@ const tableData         = require('./tableDate');
 const copyImg           = require('../../../../upload/main');
 const {nvl}             = require('../../../../../utils/nvl')
 const actualizarPrecio  = require('../PRECIOS/main')
+const path              = require('path');
+const filestorePrivate  =  path.join(__dirname,'..','..','..','..','..','..','filestore','private')//process.env.FILESTORE_PRIVATE
+const filestorePublic   =  path.join(__dirname,'..','..','..','..','..','..','filestore','public')//process.env.FILESTORE_PRIVATE
 
 exports.getServicioCab = async (req, res, next) => {
   let { cod_empresa = null }  = req.params;
@@ -133,11 +136,15 @@ exports.mainActivar = async(req, res, next)=>{
                           cod_empresa
                         }
       try {
-        const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\SERVICIO\\servicio-img${content.cod_servicio}.${extencion}`;
-        const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\servicio-img.${extencion}`;
-        await copyImg.copiarImagen(origen,destino);  
+        // const origen    = process.env.FILESTORE_PRIVATE+`\\${cod_empresa}\\SERVICIO\\servicio-img${content.cod_servicio}.${extencion}`;
+        // const destino   = process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\img\\servicio-img.${extencion}`;
+        const origen    = path.join(filestorePrivate,`${cod_empresa}`,'SERVICIO',`servicio-img${content.cod_servicio}.${extencion}`)
+        const destino   = path.join(filestorePublic,`${cod_empresa}`,'img',`servicio-img.${extencion}`)
+
+        await copyImg.copiarImagen(origen,destino);
         // codpia de datos
-        await copyImg.saveData(dataRow,'SERVICIO',process.env.FILESTORE_PUBLIC+'\\'+cod_empresa+'\\data\\');
+        // process.env.FILESTORE_PUBLIC+'\\'+cod_empresa+'\\data\\'
+        await copyImg.saveData(dataRow,'SERVICIO',path.join(filestorePublic,`${cod_empresa}`,'data/'));
         actualizarPrecio.activarImg(req,res,next);
         data  = {res:1, mensaje:''}
       } catch (error) {

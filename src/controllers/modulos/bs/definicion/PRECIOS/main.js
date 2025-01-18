@@ -5,6 +5,9 @@ const tableData         = require('./tableDate');
 const copyImg           = require('../../../../upload/main');
 const {nvl}             = require('../../../../../utils/nvl')
 const mainUpload        = require('../../../../../controllers/upload/main')
+const path              = require('path');
+const filestorePrivate  =  path.join(__dirname,'..','..','..','..','..','..','filestore','private')//process.env.FILESTORE_PRIVATE
+const filestorePublic   =  path.join(__dirname,'..','..','..','..','..','..','filestore','public')//process.env.FILESTORE_PRIVATE
 
 exports.mainPrecios = async(req, res, next)=>{
   var content     = req.body;
@@ -69,6 +72,7 @@ exports.mainPrecios = async(req, res, next)=>{
 exports.uploadImage =  async (req, res, next) => {
   try {
     mainUpload.main(req,res,next).then(()=>{
+      res.setHeader('Cache-Control', 'no-store');
       next();
     });    
   } catch (error) {
@@ -119,12 +123,16 @@ exports.activarImg = async(req, res, next)=>{
         const resul_det = await db.Open(sqlD,[],res,next);
         if(resul_det.rows && resul_det.rows.length > 0) dataRow.detalle = resul_det.rows;
         else dataRow.detalle = []
-        await copyImg.saveData(dataRow,'PRECIOS',process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\data\\`);
+        // process.env.FILESTORE_PUBLIC+`\\${cod_empresa}\\data\\`
+        await copyImg.saveData(dataRow,'PRECIOS',path.join(filestorePublic,`${cod_empresa}`,'data/'));
       }
       if(nvl(extencion,null) !== null){
-        const origen    = process.env.FILESTORE_PRIVATE+`\\${vcod_empresa}\\PRECIOS\\${extencion[0]}.${extencion[1]}`;
+        // const origen    = process.env.FILESTORE_PRIVATE+`\\${vcod_empresa}\\PRECIOS\\${extencion[0]}.${extencion[1]}`;
+        // const destino   = process.env.FILESTORE_PUBLIC+`\\${vcod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
+
         const nameSinID = extencion[0].replace(/[0-9]/g, ''); // quita cualquier numero dentro el string
-        const destino   = process.env.FILESTORE_PUBLIC+`\\${vcod_empresa}\\img\\${nameSinID}.${extencion[1]}`;
+        const origen    = path.join(filestorePrivate,`${vcod_empresa}`,'PRECIOS',`${extencion[0]}.${extencion[1]}`)
+        const destino   = path.join(filestorePublic,`${vcod_empresa}`,'img',`${nameSinID}.${extencion[1]}`)
         await copyImg.copiarImagen(origen,destino);
       }
     } catch (error) {
